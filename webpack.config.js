@@ -4,41 +4,37 @@
  */
 var webpack = require('webpack');
 var path = require('path');
+
 module.exports = {
     entry: {
         ng2: [
             'angular2/bundles/angular2-polyfills',
-            'angular2/bootstrap',
-            'angular2/common',
-            'angular2/core',
-            'angular2/router',
-            'angular2/http'
+            './www/ng2'
         ],
-        app: path.join(__dirname, 'www','static','app.js')
+        app: './www/app'
     },
     output: {
-        path: path.join(__dirname ,'www','static','build'),
+        path: './www/build',
         filename: '[name].bundle.js'
     },
     module: {
+        preLoaders: [
+            {test: /\.jsx?$/, loader: "source-map", exclude: [/node_modules/]}
+        ],
         loaders: [
             {test: /\.html$/, loader: 'raw'},
             {test: /\.json$/, loader: 'json'},
             {
-                test: /\.jsx?$/, loader: 'babel',
-                exclude: /node_modules/,
-                query: {
-                    stage: 1,
-                    plugins: ['typecheck', 'angular2-annotations']
-                }
+                test: /\.tsx?$/, loader: 'ts',
+                exclude: [/node_modules/]
             },
             {test: /\.less$/, loader: 'raw!autoprefixer!less'},
             {test: /\.scss$/, loader: 'raw!autoprefixer!sass'}
         ]
     },
     resolve: {
-        extensions: ['', '.json', '.js', '.jsx', '.less'],
-        modulesDirectories: ['node_modules', path.join(__dirname, 'www','static')]
+        extensions: ['', '.json', '.ts', '.js', '.less'],
+        modulesDirectories: ['node_modules', './ www']
     },
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
@@ -50,7 +46,7 @@ module.exports = {
         inline: true,
         colors: true,
         historyApiFallback: true,
-        contentBase: path.join(__dirname, 'www','static'),
-        publicPath: '/static/build/'
+        contentBase: './www',
+        publicPath: '/build/'
     }
 };

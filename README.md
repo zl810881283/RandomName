@@ -3,6 +3,12 @@
 ## Install
 
 ```
+npm install
+```
+
+or
+
+```
 npm install --registry=https://registry.npm.taobao.org
 ```
 

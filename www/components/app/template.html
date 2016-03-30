@@ -1,0 +1,74 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">所有学生</div>
+                <table class="table table-bordered table-condensed">
+                    <thead>
+                    <tr>
+                        <td>学号</td>
+                        <td>姓名</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="#student of students">
+                        <td>{{student.id}}</td>
+                        <td>{{student.name}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="fileInput">打开文件</label>
+                <input id="fileInput" type="file" class="form-control" onchange="onChangeFile(this.value)">
+            </div>
+
+            <div class="checkbox">
+                <label for="multi-student">
+                    <input id="multi-student" type="checkbox" [(ngModel)]="multiStudent">
+                    抽取多个学生
+                </label>
+            </div>
+            <div class="form-group" [class.hidden]="!multiStudent">
+                <label for="studentNum">抽取数量</label>
+                <input id="studentNum" type="number" class="form-control" [(ngModel)]="studentNum">
+            </div>
+            <div class="form-inline rand-group" *ngFor="#i of studentNo">
+                <div class="form-group ">
+                    <label for="studentId">学号{{i}}:</label>
+                    <input [value]="curr[i-1].id" id="studentId" type="text" class="form-control" disabled>
+                </div>
+                <div class="form-group ">
+                    <label for="studentName">姓名{{i}}:</label>
+                    <input [value]="curr[i-1].name" id="studentName" type="text" class="form-control" disabled>
+                </div>
+            </div>
+
+            <button class="btn btn-success" [class.disabled]="running" (click)="begin($event)">开始摇号</button>
+            <button class="btn btn-danger" [class.disabled]="!running" (click)="end($event)">停止摇号</button>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">选中学生 <button class="btn btn-success" [class.disabled]="!selectedStudents.length" (click)="clear($event)">清除列表</button></div>
+                <table class="table table-bordered table-condensed">
+                    <thead>
+                    <tr>
+                        <td>序号</td>
+                        <td>学号</td>
+                        <td>姓名</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="#student of selectedStudents;#i=index">
+                        <td>{{i+1}}</td>
+                        <td>{{student.id}}</td>
+                        <td>{{student.name}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
